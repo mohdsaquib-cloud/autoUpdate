@@ -7,8 +7,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "dev": "set url=http://localhost:3000 && electron .",
-        "electron-pack": "export GH_TOKEN=3567b7b53bb3b6e0a44082e587629518c8140875 && electron-builder -c.extraMetadata.main=build/electron/main.js -w",
-        "preelectron-pack": "export GH_TOKEN=3567b7b53bb3b6e0a44082e587629518c8140875 && react-scripts build"
+        "electron-pack": "export GH_TOKEN=dc5f56c799463e22928dcb6186c3a4d55b84d0ca && electron-builder -c.extraMetadata.main=build/electron/main.js -w",
+        "preelectron-pack": "export GH_TOKEN=dc5f56c799463e22928dcb6186c3a4d55b84d0ca && react-scripts build"
     },
     "build": {
         "productName": "Crystyl MINI",
