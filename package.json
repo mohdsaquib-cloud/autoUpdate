@@ -7,9 +7,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "dev": "set url=http://localhost:3000 && electron .",
-        "electron-pack": "electron-builder -c.extraMetadata.main=build/electron/main.js -w",
-        "preelectron-pack": "react-scripts build",
-        "deploy": "electron-builder build  --win --publish always"
+        "pack": "electron-builder build -c.extraMetadata.main=build/electron/main.js",
+        "deploy": "electron-builder build  -c.extraMetadata.main=build/electron/main.js --win --publish always"
     },
     "build": {
         "productName": "Crystyl MINI",
