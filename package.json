@@ -8,7 +8,8 @@
         "build": "react-scripts build",
         "dev": "set url=http://localhost:3000 && electron .",
         "electron-pack": "electron-builder -c.extraMetadata.main=build/electron/main.js -w",
-        "preelectron-pack": "react-scripts build"
+        "preelectron-pack": "react-scripts build",
+        "deploy": "electron-builder build  --win --publish always"
     },
     "build": {
         "productName": "Crystyl MINI",
@@ -37,6 +38,7 @@
     },
     "homepage": "./",
     "dependencies": {
+        "electron-updater": "^4.3.5",
         "react": "^17.0.1",
         "react-dom": "^17.0.1",
         "react-scripts": "^4.0.3"
