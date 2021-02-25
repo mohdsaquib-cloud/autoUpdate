@@ -25,7 +25,7 @@ jobs:
             # Checks-out your repository under $GITHUB_WORKSPACE, so your job can access it
             - uses: actions/checkout@v2
               with:
-                  gh_token: ${{ secrets.GITHUB_TOKEN }}
+                  gh_token: ${{ secrets.GH_TOKEN }}
 
             # Runs a single command using the runners shell
             - name: installing dependencies
