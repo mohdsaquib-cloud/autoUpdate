@@ -47,10 +47,6 @@ jobs:
     build:
         needs: [release_management]
 
-        # The build job needs to be built on Win, Linux, and macOS
-        # Win32 --> build NSIS
-        # macOS --> build DMG
-        # Linux --> build DEB, RPM, and AppImage
         strategy:
             matrix:
                 os: [windows-latest]
@@ -73,7 +69,7 @@ jobs:
             - name: Emit pkgver
               id: pkg
               run: |
-                  appver=$(node -p -e "require('./app/package.json').version")
+                  appver=$(node -p -e "require('./package.json').version")
                   pkgver=$(node -p -e "require('./package.json').version")
                   echo ::set-output name=version::$appver
                   echo ::set-output name=package_version::$pkgver
