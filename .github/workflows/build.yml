@@ -91,7 +91,7 @@ jobs:
               uses: actions/upload-artifact@v1
               with:
                   name: Notorious-$.exe
-                  path: ./release/Notorious Setup $.exe
+                  path: ./Notorious Setup $.exe
             - name: Cache Windows MSI release
               if: matrix.os == 'windows-latest' # Only if the job runs on Windows
               uses: actions/upload-artifact@v1
