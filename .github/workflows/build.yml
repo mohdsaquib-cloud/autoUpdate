@@ -44,26 +44,6 @@ jobs:
               uses: actions/setup-node@v1
               with:
                   node-version: "10.15.1"
-            - name: Preparing release
-              run: |
-                  git config --local user.email "mohdsaquib9876@gmail.com"
-                  git config --local user.name "GitHub Action"
-                  pushd ./app
-                    npx standard-version -a --no-verify --prerelease alpha --skip.commit --skip.tag --skip.changelog
-                    echo ::set-env name=PACKAGE_VERSION::$(node -p -e "require('./package.json').version")
-                  popd
-                  npx standard-version -a --no-verify --prerelease alpha --skip.commit --skip.tag
-              env:
-                  CI: true
-            # - name: Push to master
-            #   uses: ad-m/github-push-action@v0.5.0
-            #   with:
-            #     github_token: $
-            # - name: Merge back to develop
-            #   uses: ad-m/github-push-action@v0.5.0
-            #   with:
-            #     github_token: $
-            #     branch: develop
     build:
         needs: [release_management]
 
