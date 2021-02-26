@@ -7,8 +7,8 @@
         "start": "react-scripts start",
         "build": "react-scripts build",
         "dev": "set url=http://localhost:3000 && electron .",
-        "electron-pack": "export GH_TOKEN=4f854cbda3db9653b212d6b949794c0d58da88af && electron-builder -c.extraMetadata.main=build/electron/main.js -w",
-        "preelectron-pack": "export GH_TOKEN=4f854cbda3db9653b212d6b949794c0d58da88af && react-scripts build"
+        "electron-pack": "electron-builder -c.extraMetadata.main=build/electron/main.js -w",
+        "preelectron-pack": "react-scripts build"
     },
     "build": {
         "productName": "Crystyl MINI",
@@ -16,6 +16,10 @@
         "files": [
             "build/**/*"
         ],
+        "publish": {
+            "provider": "generic",
+            "url": "https://myappserver.com/updates/"
+        },
         "win": {
             "target": "nsis"
         },
