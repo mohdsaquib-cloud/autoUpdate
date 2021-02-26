@@ -27,7 +27,7 @@ name: Build
 on:
     push:
         branches:
-            - master
+            - main
 
 # We need two jobs: First a build-job, running on a matrix
 # to build all necessary releases, which also uploads all
