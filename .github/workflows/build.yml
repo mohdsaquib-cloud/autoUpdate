@@ -56,7 +56,7 @@ jobs:
                 os: [windows-latest]
 
         # Define the operating system
-        runs-on: $
+        runs-on: self-hosted
 
         steps:
             # Clone the repository
