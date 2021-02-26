@@ -46,7 +46,7 @@ jobs:
                   node-version: "10.15.1"
             - name: Preparing release
               run: |
-                  git config --local user.email "action@github.com"
+                  git config --local user.email "mohdsaquib9876@gmail.com"
                   git config --local user.name "GitHub Action"
                   pushd ./app
                     npx standard-version -a --no-verify --prerelease alpha --skip.commit --skip.tag --skip.changelog
