@@ -1,39 +1,8 @@
 name: Build
-
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-# RATIONALE BEHIND THIS HUGE WORKFLOW
-#
-# GitHub Actions runs everything in a sandboxed VM, and we need to build
-# each asset on its "home" operating system, both because macOS code
-# signing, e.g., doesn't work on other platforms. Additionally, this way
-# we don't need WINE and, if necessary at some point, can build any
-# native dependencies.
-#
-# This workflow tries to use as few hacks and monkey patches as possible
-# to perform the same workflow as the ./scripts/make.sh-file. Therefore
-# we ONLY build the corresponding release on the build-VMs, and then
-# upload the resulting artifact to the Workflow.
-#
-# After all artifacts from the three VMs have been successfully uploaded
-# to the workflow run, we then download all of them on a fourth VM, where
-# we generate the checksums, verify the integrity and finally create a
-# new release draft where we upload everything in one step.
-#
-# Benefits: Native environments without the need to upload useless
-# stuff to foreign places (data scarcity, DRY).
-# # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #
-
-# Only when we push to master, as this indicates a build
 on:
     push:
         branches:
             - main
-
-# We need two jobs: First a build-job, running on a matrix
-# to build all necessary releases, which also uploads all
-# resulting assets to the workflow. And then, we download
-# them onto a separate VM running the release-job to verify
-# the checksums and create a draft release.
 jobs:
     release_management:
         runs-on: ubuntu-latest
@@ -74,61 +43,8 @@ jobs:
                   echo ::set-output name=version::$appver
                   echo ::set-output name=package_version::$pkgver
               shell: bash
-            # On Windows server, we have to create the handlebars-directory
-            # manually, because the node-process always crashes when it
-            # attempts literally the same thing.
-
-            # Perform all necessary pre-build steps (LESS, handlebars, and so forth)
             - name: Set up build environment and compile the assets
               run: npm install
-            # Now we're set to finally release the beast!
-            # WINDOWS ==============================================================
             - name: Build Windows Installer
-              if: matrix.os == 'windows-latest' # Only if the job runs on Windows
+              if: matrix.os == 'windows-latest'
               run: npm run electron-pack
-            - name: Generate SHA256 checksums
-              run: |
-                  ls -la
-                  sha256sum "Notorious Setup $.exe" > "SHA256SUMS.txt"
-                  # sha256sum "Notorious-$.dmg" >> "SHA256SUMS.txt"
-                  sha256sum "notorious_$_amd64.deb" >> "SHA256SUMS.txt"
-                  sha256sum "notorious-$.x86_64.rpm" >> "SHA256SUMS.txt"
-                  sha256sum "Notorious-$.AppImage" >> "SHA256SUMS.txt"
-
-              # sha256sum "Notorious-$-x86_64.AppImage" >> "SHA256SUMS.txt"
-            - name: Verify checksums
-              run: |
-                  ls -la
-                  sha256sum -c SHA256SUMS.txt
-            # Create a new release draft
-            - name: Create a new release draft
-              id: create_release
-              uses: actions/create-release@v1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  tag_name: v$ # tag_name is required, but can be overridden during edit
-                  release_name: Release v$ # release_name is required
-                  body: If you can read this, we have forgotten to fill in the changelog. Sorry!
-                  draft: true # Always create as draft, so that we can populate the remaining values easily
-
-            # And finally, upload that shit
-            - name: Upload Windows asset
-              uses: actions/upload-release-asset@v1.0.1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  upload_url: $
-                  asset_path: ./Notorious Setup $.exe
-                  asset_name: Notorious-$.exe
-                  asset_content_type: application/x-msdownload
-
-            - name: Upload the checksums
-              uses: actions/upload-release-asset@v1.0.1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  upload_url: $
-                  asset_path: ./SHA256SUMS.txt
-                  asset_name: SHA256SUMS.txt
-                  asset_content_type: text/plain
