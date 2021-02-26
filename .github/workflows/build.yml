@@ -85,7 +85,7 @@ jobs:
             # WINDOWS ==============================================================
             - name: Build Windows Installer
               if: matrix.os == 'windows-latest' # Only if the job runs on Windows
-              run: yarn electron-pack
+              run: npm run electron-pack
             - name: Cache Windows Exe release
               if: matrix.os == 'windows-latest' # Only if the job runs on Windows
               uses: actions/upload-artifact@v1
@@ -133,56 +133,6 @@ jobs:
                   asset_path: ./Notorious Setup $.exe
                   asset_name: Notorious-$.exe
                   asset_content_type: application/x-msdownload
-
-            # - name: Upload macOS asset
-            #   uses: actions/upload-release-asset@v1.0.1
-            #   env:
-            #     GITHUB_TOKEN: $
-            #   with:
-            #     upload_url: $
-            #     asset_path: ./Notorious-$.dmg
-            #     asset_name: Notorious-$.dmg
-            #     asset_content_type: application/octet-stream
-
-            - name: Upload Debian asset
-              uses: actions/upload-release-asset@v1.0.1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  upload_url: $
-                  asset_path: ./notorious_$_amd64.deb
-                  asset_name: Notorious-$-amd64.deb
-                  asset_content_type: application/octet-stream
-
-            - name: Upload Fedora asset
-              uses: actions/upload-release-asset@v1.0.1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  upload_url: $
-                  asset_path: ./notorious-$.x86_64.rpm
-                  asset_name: Notorious-$-x86_64.rpm
-                  asset_content_type: application/octet-stream
-
-            - name: Upload AppImage (x32) asset
-              uses: actions/upload-release-asset@v1.0.1
-              env:
-                  GITHUB_TOKEN: $
-              with:
-                  upload_url: $
-                  asset_path: ./Notorious-$.AppImage
-                  asset_name: Notorious-$-i386.AppImage
-                  asset_content_type: application/octet-stream
-
-            # - name: Upload AppImage (x64) asset
-            #   uses: actions/upload-release-asset@v1.0.1
-            #   env:
-            #     GITHUB_TOKEN: $
-            #   with:
-            #     upload_url: $
-            #     asset_path: ./Notorious-$-x86_64.AppImage
-            #     asset_name: Notorious-$-x86_64.AppImage
-            #     asset_content_type: application/octet-stream
 
             - name: Upload the checksums
               uses: actions/upload-release-asset@v1.0.1
